@@ -1,7 +1,5 @@
 package com.weborders.tests;
 
-
-import com.aventstack.extentreports.ExtentReporter;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
@@ -14,9 +12,8 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
-
 import java.io.IOException;
-import java.util.Iterator;
+
 
 public abstract class AbstractBaseTest {
     protected WebDriver driver= Driver.getDriver();
@@ -34,6 +31,9 @@ public abstract class AbstractBaseTest {
        }else{
            reportpath=System.getProperty("user.dir")+ "/test-output/report.html";
        }
+       extentHtmlReporter=new ExtentHtmlReporter(reportpath);
+       extentReports.attachReporter(extentHtmlReporter);
+       extentHtmlReporter.config().setReportName("WebOrders Automation");
     }
     @AfterTest
     public void afterTest(){
@@ -43,6 +43,7 @@ public abstract class AbstractBaseTest {
 
     @BeforeMethod
     public void setup(){
+        driver= Driver.getDriver();
         driver.get(ConfigurationReader.getProperty("url"));
         driver.manage().window().maximize();
     }
